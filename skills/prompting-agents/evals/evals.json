@@ -1,0 +1,90 @@
+{
+  "skill_name": "prompting-agents",
+  "evals": [
+    {
+      "skills": ["prompting-agents"],
+      "query": "My agent keeps suggesting changes instead of making them. I have file editing tools available but it just describes what it would do. How do I fix this?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies the action-vs-suggestion problem",
+        "Provides the default_to_action prompt block",
+        "Explains that explicit instructions like 'change this' work better than 'can you suggest'",
+        "Applicable to any model, not just Claude-specific advice",
+        "Does NOT suggest adding more tools — the issue is prompting"
+      ]
+    },
+    {
+      "skills": ["prompting-agents"],
+      "query": "I'm writing a system prompt for a coding agent with 15 tools. It handles file operations, git, testing, and deployment. How should I structure the prompt?",
+      "files": [],
+      "expected_behavior": [
+        "Recommends structured sections with clear delimiters: role, instructions, tools_guidance, output_format, constraints",
+        "Advises putting long context at the top, instructions at the bottom",
+        "Suggests grouping tool guidance by category",
+        "Discusses calibrating tool aggressiveness per model",
+        "Mentions parallel tool calling configuration",
+        "Includes safety rails for destructive operations"
+      ]
+    },
+    {
+      "skills": ["prompting-agents"],
+      "query": "My agent is way too verbose — paragraphs of explanation before and after every action. I just want it to do the work.",
+      "files": [],
+      "expected_behavior": [
+        "Provides a concise_output prompt block",
+        "Suggests 'Respond directly without preamble' instruction",
+        "Notes that matching prompt style to desired output reduces verbosity",
+        "Mentions examples as the most reliable formatting lever",
+        "Model-agnostic advice that works across providers"
+      ]
+    },
+    {
+      "skills": ["prompting-agents"],
+      "query": "My agent overthinks everything — explores too many options and takes forever. How do I reduce this without losing quality on hard tasks?",
+      "files": [],
+      "expected_behavior": [
+        "Provides the 'commit to an approach' prompt to prevent decision thrashing",
+        "Discusses chain-of-thought control strategies",
+        "Mentions model-specific thinking controls where applicable (effort settings, budget_tokens)",
+        "Suggests self-checking as an alternative to exhaustive exploration",
+        "Model-agnostic core advice with model-specific tips where behavior differs"
+      ]
+    },
+    {
+      "skills": ["prompting-agents"],
+      "query": "I'm building a long-running agent that works across multiple context windows. It keeps losing track of progress. How should I prompt it?",
+      "files": [],
+      "expected_behavior": [
+        "Provides context compaction awareness prompt",
+        "Recommends structured state files (JSON for status, freeform for notes)",
+        "Suggests using git for checkpoints",
+        "Describes first-window vs subsequent-windows strategy",
+        "Provides fresh-start prompt (review files and git logs)",
+        "Mentions encouraging full context usage"
+      ]
+    },
+    {
+      "skills": ["prompting-agents"],
+      "query": "My agent hallucinates about code that doesn't exist — references functions and files not in the codebase.",
+      "files": [],
+      "expected_behavior": [
+        "Provides the investigate_before_answering prompt block",
+        "Explains the pattern: read files BEFORE making claims",
+        "Applicable to any model, not provider-specific",
+        "Does NOT suggest fine-tuning or RAG as primary fix — this is a prompting problem"
+      ]
+    },
+    {
+      "skills": ["prompting-agents"],
+      "query": "How do I write effective few-shot examples for my agent? It keeps getting the output format wrong.",
+      "files": [],
+      "expected_behavior": [
+        "Recommends 3-5 examples as the most reliable formatting lever",
+        "Advises making examples relevant (mirror actual use cases), diverse (cover edge cases), and structured (clear delimiters)",
+        "Suggests wrapping examples in tags to distinguish from instructions",
+        "Notes that examples with thinking tags teach reasoning patterns too",
+        "Model-agnostic advice — few-shot works across all major models"
+      ]
+    }
+  ]
+}

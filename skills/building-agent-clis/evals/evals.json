@@ -1,0 +1,95 @@
+{
+  "skill_name": "building-agent-clis",
+  "evals": [
+    {
+      "skills": ["building-agent-clis"],
+      "query": "I have an existing CLI for managing our cloud infrastructure. It has 40+ commands with lots of flags. I want AI agents to be able to use it. What do I need to change?",
+      "files": [],
+      "expected_behavior": [
+        "Provides the retrofit checklist in order of priority",
+        "Starts with --output json as table stakes",
+        "Recommends input validation for agent-specific failure modes (not just human typos)",
+        "Suggests schema/--describe command for runtime introspection",
+        "Recommends --dry-run for mutating operations",
+        "Suggests shipping CONTEXT.md or SKILL.md for agent invariants",
+        "Does NOT suggest rewriting from scratch — retrofit incrementally"
+      ]
+    },
+    {
+      "skills": ["building-agent-clis"],
+      "query": "I'm building a new CLI from scratch that wraps our REST API. It'll be used primarily by AI agents. How should I design the interface?",
+      "files": [],
+      "expected_behavior": [
+        "Recommends raw JSON payloads via --json flag over bespoke flags",
+        "Suggests supporting both human flags and raw payload for the same binary",
+        "Recommends schema introspection commands",
+        "Discusses context window discipline: field masks, NDJSON pagination",
+        "Covers input hardening against hallucinations with specific examples",
+        "Mentions MCP surface for typed tool invocation",
+        "Includes auth strategy: env vars and service accounts, no browser redirects"
+      ]
+    },
+    {
+      "skills": ["building-agent-clis"],
+      "query": "Agents keep passing invalid resource IDs to my CLI — things like 'abc123?fields=name' or pre-encoded strings. How do I stop this?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies this as a hallucination pattern, not a typo",
+        "Provides specific validation: reject '?' and '#' in resource IDs",
+        "Provides specific validation: reject '%' to catch pre-encoded strings",
+        "Recommends validation at the CLI boundary, not trusting agent input",
+        "Suggests helpful error messages that tell the agent what went wrong and how to fix it",
+        "References the input hardening guide for implementation patterns"
+      ]
+    },
+    {
+      "skills": ["building-agent-clis"],
+      "query": "My CLI returns huge JSON responses and agents are wasting their context window on irrelevant fields. How do I fix this?",
+      "files": [],
+      "expected_behavior": [
+        "Recommends field masks (--fields parameter) to limit response size",
+        "Suggests NDJSON streaming for paginated results",
+        "Recommends defaulting to minimal responses for agent-facing output",
+        "Mentions shipping CONTEXT.md with 'always use --fields' guidance",
+        "Discusses the context window cost: every irrelevant field wastes reasoning capacity"
+      ]
+    },
+    {
+      "skills": ["building-agent-clis"],
+      "query": "Should I expose my CLI as an MCP server? What are the tradeoffs?",
+      "files": [],
+      "expected_behavior": [
+        "Says yes if the CLI wraps a structured API",
+        "Explains benefits: eliminates shell escaping, argument parsing ambiguity, output parsing",
+        "Explains that agents call typed functions instead of constructing shell strings",
+        "Discusses the multi-surface design: same binary serves CLI, MCP, env vars",
+        "Mentions that MCP uses JSON-RPC over stdio",
+        "Notes that the same schema/discovery document can power both CLI and MCP"
+      ]
+    },
+    {
+      "skills": ["building-agent-clis"],
+      "query": "How do I handle authentication for agents using my CLI? They can't do OAuth browser flows.",
+      "files": [],
+      "expected_behavior": [
+        "Recommends environment variables for token injection",
+        "Suggests service accounts where possible",
+        "Explicitly states: never require browser redirects in the agent path",
+        "Mentions credential file paths as an alternative",
+        "Notes that agents run headless — interactive auth flows block them"
+      ]
+    },
+    {
+      "skills": ["building-agent-clis"],
+      "query": "I want agents to be able to preview destructive operations before executing them. What's the best pattern?",
+      "files": [],
+      "expected_behavior": [
+        "Recommends --dry-run flag for all mutating operations",
+        "Explains that agents can 'think out loud' before acting",
+        "Notes the cost of hallucinated parameters in destructive ops isn't a bad error — it's data loss",
+        "Suggests combining --dry-run with SKILL.md guidance: 'always use --dry-run for mutations'",
+        "May mention response sanitization for prompt injection defense"
+      ]
+    }
+  ]
+}

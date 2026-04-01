@@ -4,18 +4,20 @@
     "name": "Tyler Gibbs"
   },
   "metadata": {
-    "description": "Skills for designing effective AI agents and the tools they use",
-    "version": "2.0.0"
+    "description": "Skills for designing effective AI agents, tools, prompts, and CLIs",
+    "version": "3.0.0"
   },
   "plugins": [
     {
       "name": "agent-best-practices",
-      "description": "Skills for designing effective AI agents and the tools they use. Covers architecture patterns, context engineering, tool schema design, evaluation, and iterative improvement.",
+      "description": "Skills for designing effective AI agents, tools, prompts, and CLIs. Covers architecture patterns, context engineering, tool schema design, prompt engineering, CLI agent-DX, evaluation, and iterative improvement.",
       "source": "./",
       "strict": false,
       "skills": [
         "./skills/designing-agents",
-        "./skills/designing-agent-tools"
+        "./skills/designing-agent-tools",
+        "./skills/prompting-agents",
+        "./skills/building-agent-clis"
       ]
     }
   ]
