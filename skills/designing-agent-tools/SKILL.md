@@ -1,8 +1,8 @@
 ---
 name: designing-agent-tools
-description: Designs, builds, and optimizes tools for AI agents — covering schema design, descriptions, response formatting, MCP servers, programmatic tool calling (PTC), evaluation, and iterative improvement. Triggers on "build a tool," "write a tool," "MCP tool," "agent tool," "tool for Claude," "tool design," "improve my tools," "tool evaluation," "tool description," "programmatic tool calling," "PTC," "tool composition," "reduce tool call tokens," "my agent keeps calling the wrong tool," "agent can't use this tool," building MCP servers, Desktop extensions (DXT), or API tool definitions.
+description: Designs, builds, and iteratively improves tools for AI agents — covering schema design, descriptions, response formatting, MCP servers, programmatic tool calling (PTC), progressive disclosure, evaluation, and evolving tools with model capabilities. Triggers on "build a tool," "write a tool," "MCP tool," "agent tool," "tool for Claude," "tool design," "improve my tools," "tool evaluation," "tool description," "programmatic tool calling," "PTC," "tool composition," "reduce tool call tokens," "progressive disclosure," "too many tools," "my agent keeps calling the wrong tool," "agent can't use this tool," building MCP servers, Desktop extensions (DXT), or API tool definitions.
 metadata:
-  version: 2.0.0
+  version: 3.0.0
 ---
 
 # Designing Agent Tools
@@ -213,6 +213,37 @@ For detailed evaluation setup, metrics, and analysis: See [references/tool-evalu
 
 ---
 
+## Seeing Like an Agent
+
+Tool design is iterative. What works for one model may not work for the next. The core practice: read the model's outputs, experiment, and revise.
+
+### Shape Tools to Model Abilities
+
+Think of giving an agent a math problem. Paper is the minimum. A calculator is better but limited. A computer is most powerful but requires coding ability. Design tools shaped to what the model can actually do — and revisit as capabilities change.
+
+### Expand the Action Space Without Adding Tools
+
+The bar to add a new tool should be high — each tool is one more option the model must evaluate. Before adding a tool, ask: can progressive disclosure solve this instead?
+
+**Progressive disclosure alternatives:**
+- Give the agent a search tool to find information in skill files
+- Reference docs from the system prompt that the agent reads on demand
+- Delegate to a sub-agent with specialized instructions instead of a specialized tool
+- Let the agent write and execute code for one-off operations
+
+### Evolve Tools as Models Improve
+
+Tools that helped a weaker model may constrain a stronger one:
+- A todo-list tool that kept early models on track became limiting when newer models could manage their own state — it was replaced with a task coordination tool for sub-agents
+- RAG-injected context was replaced by giving models search tools to build their own context
+- System prompt reminders every N turns became unnecessary and were removed
+
+**Revisit your tools with each model upgrade.** Stick to a small set of supported models with similar capability profiles.
+
+For case studies from Claude Code: See [references/iterative-tool-design.md](references/iterative-tool-design.md)
+
+---
+
 ## Anti-Patterns
 
 - **1:1 API wrapping** — Agents need workflow-level tools, not CRUD endpoints
@@ -221,6 +252,8 @@ For detailed evaluation setup, metrics, and analysis: See [references/tool-evalu
 - **Opaque IDs only** — `"a1b2c3d4-e5f6"` is meaningless. Include `"Jane Smith"` alongside.
 - **Silent failures** — Empty results with no explanation. Always say what happened.
 - **Generic param names** — `query`, `input`, `data` give no clue. Be specific.
+- **Never revisiting tools** — tools that helped a weaker model may constrain a stronger one. Re-evaluate with each model upgrade.
+- **Adding tools when progressive disclosure works** — skill files, sub-agents, and code execution can expand the action space without adding to tool count.
 
 ---
 

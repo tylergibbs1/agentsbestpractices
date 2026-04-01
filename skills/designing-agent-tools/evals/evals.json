@@ -121,6 +121,32 @@
         "Notes that if none of these apply, the action can stay in bash/code execution",
         "Mentions the trade-off: tools give control but add composition tax"
       ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "My agent has 30 tools and I keep adding more as new features come in. It's getting confused. But I need all this functionality. What should I do?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies too many tools as the root problem — each tool is one more option to evaluate",
+        "Recommends progressive disclosure as an alternative to adding tools",
+        "Suggests sub-agents with specialized instructions for domain-specific functionality",
+        "Mentions code execution for one-off operations",
+        "Advises keeping the core tool count small and expanding action space through other means",
+        "Does NOT say 'just remove tools' — addresses the real need for expanded functionality"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "We just upgraded from an older model to a newer one and some of our tools seem to be getting in the way. The model keeps fighting against our todo-list tool and ignoring our system reminders. What's happening?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies that tools designed for weaker models can constrain stronger ones",
+        "Recommends revisiting tool design with each model upgrade",
+        "Explains the pattern: tracking tools become coordination tools as models improve",
+        "Suggests removing system reminders that newer models don't need",
+        "Notes that stronger models are better at building their own context — may not need injected context",
+        "References the TodoWrite → Tasks evolution as a concrete example"
+      ]
     }
   ]
 }
