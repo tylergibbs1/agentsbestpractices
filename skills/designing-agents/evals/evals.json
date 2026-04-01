@@ -94,6 +94,20 @@
         "Grounds recommendations in practical implementation (memory files, CLAUDE.md updates)",
         "Does NOT suggest fine-tuning as the primary approach"
       ]
+    },
+    {
+      "skills": ["designing-agents"],
+      "query": "I need to build an agent that can work autonomously on a large project for hours — implementing 50+ features in a web app. It can't fit in one context window. How do I architect this?",
+      "files": [],
+      "expected_behavior": [
+        "Recommends the two-agent architecture: initializer agent + worker agent loop",
+        "Describes what the initializer creates: setup script, feature list (JSON), progress file, initial git commit",
+        "Describes the worker session protocol: read state → verify baseline → implement one feature → test → commit → update progress",
+        "Emphasizes JSON over markdown for state files (less corruption risk)",
+        "Mentions the 'only modify passes field' rule to prevent agents from deleting tests",
+        "Explains why workers must verify existing features before starting new work",
+        "Notes that git history serves as memory across sessions"
+      ]
     }
   ]
 }

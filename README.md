@@ -19,6 +19,7 @@ npx skills add tylergibbs1/agentsbestpractices
 | Single agent vs multi-agent decision framework | Anthropic's "Building effective agents" |
 | Context engineering (progressive disclosure, offloading, caching) | Lance Martin's agent design patterns |
 | Ralph loop for long-running tasks | Claude Code patterns |
+| Long-running harness: initializer + worker agents, state files | Anthropic's "Effective Harnesses" |
 | Coordinator, hierarchical, swarm patterns | Google's agent design guide |
 
 ### [designing-agent-tools](skills/designing-agent-tools/SKILL.md)
@@ -82,6 +83,7 @@ These skills distill guidance from:
 - [You Need to Rewrite Your CLI for AI Agents](https://jpoehnelt.dev/posts/rewrite-cli-for-ai-agents/) — Justin Poehnelt
 - [Programmatic tool calling](https://www.anthropic.com/engineering/programmatic-tool-calling) — Anthropic
 - [Seeing like an Agent: Lessons from Building Claude Code](https://www.anthropic.com/engineering/seeing-like-an-agent) — Anthropic
+- [Effective Harnesses for Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents) — Anthropic
 - [Skill authoring best practices](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/authoring-best-practices) — Anthropic
 
 ## Contributing

@@ -119,14 +119,30 @@ Delegate tasks to sub-agents with isolated context windows, tools, and instructi
 
 ### The Ralph Loop
 
-For tasks that exceed a single context window:
+For tasks that exceed a single context window, use two specialized agent types:
 
-1. An initializer agent sets up environment (plan file, tracking file)
-2. Sub-agents tackle individual tasks from the plan
-3. After each iteration, verify work (e.g., via stop hooks)
-4. Loop until plan is satisfied
+**Initializer agent** (runs once):
+- Sets up the environment (dev server scripts, git repo)
+- Creates a structured feature/task list (JSON, not markdown — less prone to overwrites)
+- Writes progress tracking file
+- Commits initial state to git
 
-Context persists in files and git history across agent instances.
+**Worker agent** (loops until done):
+1. Reads git log + progress file to understand current state
+2. Runs setup scripts (e.g., `init.sh`) to restore environment
+3. Verifies existing work still passes before starting new work
+4. Tackles one task from the plan
+5. Self-verifies with tests before marking complete
+6. Commits progress with descriptive messages
+7. Updates progress file
+
+**Critical rules:**
+- Agents may only update the `passes` field on tasks — never remove or edit tests
+- Use JSON for state files (structured, machine-parseable, less corruption risk)
+- Each session starts by reading state, not by asking the user what to do
+- End each session in a production-ready state
+
+For implementation details and failure modes: See [references/long-running-harness.md](references/long-running-harness.md)
 
 ### Evolve Context Over Time
 
