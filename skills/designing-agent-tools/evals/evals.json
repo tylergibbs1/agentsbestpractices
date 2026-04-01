@@ -1,0 +1,101 @@
+{
+  "skill_name": "designing-agent-tools",
+  "evals": [
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "I need to build tools for an AI agent that manages our customer support workflow. The agent needs to look up customers, search through support tickets, and send replies. We use a REST API with endpoints for /customers, /tickets, and /messages. What tools should I build?",
+      "files": [],
+      "expected_behavior": [
+        "Does NOT suggest three tools that 1:1 map to the REST endpoints",
+        "Recommends consolidated workflow-level tools (e.g., get_customer_context, search_tickets, reply_to_ticket)",
+        "Explains why consolidation beats 1:1 endpoint mapping — agents need workflow tools, not CRUD",
+        "Discusses response format design with concise vs detailed enum",
+        "Uses specific parameter names like ticket_id and customer_email, not generic ones",
+        "Addresses pagination or response size limits for ticket search"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "My agent keeps calling the wrong tool. I have `search_docs`, `find_docs`, `query_docs`, and `lookup_docs` — they all search our knowledge base but with slightly different filters. How do I fix this?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies overlapping tools with similar names as the core problem",
+        "Recommends consolidating into one tool (e.g., search_knowledge_base)",
+        "Provides a concrete merged tool specification with parameters capturing the different search modes",
+        "Uses enum or filter parameters to differentiate modes within the single tool",
+        "Explains the anti-pattern: overlapping tools increase agent confusion and wrong-tool calls",
+        "Suggests evaluation tasks to verify the agent now picks the right tool consistently"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "Write me an MCP tool that searches our PostgreSQL database for user records. It should support searching by name, email, or company. We have about 50,000 users.",
+      "files": [],
+      "expected_behavior": [
+        "Uses a descriptive tool name like search_users",
+        "Parameters have specific names (search_query, not q; search_field, not field)",
+        "Includes search_field as an enum of [name, email, company]",
+        "Implements pagination — does NOT return all 50,000 records at once",
+        "Includes a response_format parameter (concise vs detailed)",
+        "Has input validation with helpful, actionable error messages",
+        "Handles empty results with a guidance message, not silent empty array",
+        "Tool description follows four-part anatomy: what, when, how, constraints"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "I built a tool and the description is: 'Gets stuff from the API.' The parameters are: q (string), n (number), t (string). Help me improve this.",
+      "files": [],
+      "expected_behavior": [
+        "Identifies the vague description as a problem",
+        "Identifies generic single-letter parameter names as a problem",
+        "Rewrites the description with what/when/how/constraints structure",
+        "Renames all parameters to be self-documenting (e.g., search_query, max_results, result_type)",
+        "Adds enum types where the parameter accepts a fixed set of values",
+        "Adds concrete input examples for non-obvious parameters",
+        "Shows a clear before/after comparison so the user can see the improvement"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "I want to build tools for an agent that manages our GitHub workflow — creating issues, reviewing PRs, managing releases. Should I build one tool per GitHub API endpoint?",
+      "files": [],
+      "expected_behavior": [
+        "Explicitly advises against 1:1 GitHub API endpoint mapping",
+        "Recommends workflow-level tools like triage_issue, review_pr, prepare_release",
+        "Explains the principle: tools should match human task decomposition, not API structure",
+        "Discusses namespacing strategy for GitHub tools (e.g., github_issues_triage)",
+        "Warns about too-many-tools confusion risk",
+        "Provides concrete tool examples with parameters, not just names"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "My tool returns this response and the agent keeps getting confused: {\"data\": [{\"id\": \"a1b2c3d4-e5f6-7890-abcd-ef1234567890\", \"ts\": 1710412200, \"uid\": \"x9y8z7w6\", \"msg\": \"Deploy scheduled\", \"ch\": \"C01234567\"}]}. What's wrong?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies opaque UUIDs without human-readable names as a problem",
+        "Identifies abbreviated field names (ts, uid, msg, ch) as a problem",
+        "Identifies missing human-readable identifiers (no user name, no channel name)",
+        "Rewrites the response with full field names and human-readable names alongside IDs",
+        "Suggests a response_format enum for concise (names only) vs detailed (names + IDs)",
+        "Explains that agents reason in natural language and perform better with readable identifiers"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "How do I set up an evaluation for my tools? I have 5 MCP tools for managing a project management system (Asana-like). I want to know if agents can use them effectively.",
+      "files": [],
+      "expected_behavior": [
+        "Walks through the full evaluation setup process end-to-end",
+        "Generates realistic example tasks for project management, not trivial ones",
+        "Explains train/test split (70/30) and why the held-out set matters",
+        "Describes the agent loop architecture for running evaluations programmatically",
+        "Discusses verifier options: LLM-as-judge for complex tasks, exact match for factual outputs",
+        "Lists key metrics to collect: accuracy, tool calls, errors, tokens",
+        "Includes analysis guidance: read CoT, triage failure modes, check patterns",
+        "Warns against overly simplistic sandbox tasks that don't stress-test tools"
+      ]
+    }
+  ]
+}
