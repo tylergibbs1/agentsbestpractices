@@ -4,16 +4,17 @@
     "name": "Tyler Gibbs"
   },
   "metadata": {
-    "description": "Skills for building effective AI agent tools — design, evaluation, and optimization",
-    "version": "1.0.0"
+    "description": "Skills for designing effective AI agents and the tools they use",
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "agent-best-practices",
-      "description": "Skills for designing, building, and optimizing tools that AI agents use effectively. Covers tool schema design, description writing, response formatting, MCP servers, evaluation setup, and iterative improvement.",
+      "description": "Skills for designing effective AI agents and the tools they use. Covers architecture patterns, context engineering, tool schema design, evaluation, and iterative improvement.",
       "source": "./",
       "strict": false,
       "skills": [
+        "./skills/designing-agents",
         "./skills/designing-agent-tools"
       ]
     }

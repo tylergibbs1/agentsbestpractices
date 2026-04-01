@@ -1,0 +1,99 @@
+{
+  "skill_name": "designing-agents",
+  "evals": [
+    {
+      "skills": ["designing-agents"],
+      "query": "I want to build an AI agent that handles customer support — looking up orders, processing refunds, answering product questions. Where do I start?",
+      "files": [],
+      "expected_behavior": [
+        "Recommends starting with a single agent, not jumping to multi-agent",
+        "Suggests routing as a potential pattern if query types are distinct (orders vs refunds vs product questions)",
+        "Discusses keeping the tool set small (10-20 tools max)",
+        "Mentions progressive disclosure for knowledge base access",
+        "Identifies human-in-the-loop checkpoints for refund approval",
+        "Advises measuring before adding complexity"
+      ]
+    },
+    {
+      "skills": ["designing-agents"],
+      "query": "My coding agent works fine on small tasks but falls apart on large refactors that touch 20+ files. It loses track of what it's done and starts repeating work or contradicting earlier changes. How do I fix this?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies context window exhaustion as the core problem",
+        "Recommends the Ralph Loop pattern for long-running tasks",
+        "Describes the initializer → plan file → worker loop → verification flow",
+        "Suggests offloading context to filesystem (plan.md, progress.md)",
+        "Mentions git as memory — each commit is a checkpoint",
+        "Discusses stop hooks for verification after each iteration",
+        "Does NOT just suggest 'use a bigger context window'"
+      ]
+    },
+    {
+      "skills": ["designing-agents"],
+      "query": "I'm building a research agent that needs to gather information from 10 different sources, analyze findings, and write a report. Should I use one agent or multiple?",
+      "files": [],
+      "expected_behavior": [
+        "Recommends parallelization for the gathering phase (10 sources can be queried concurrently)",
+        "Suggests an orchestrator-workers or coordinator pattern for the overall flow",
+        "Distinguishes between the parallel gathering and sequential analysis/synthesis phases",
+        "Discusses context isolation — each source-gathering sub-agent has focused context",
+        "Mentions aggregating results before the analysis phase",
+        "Warns that multi-agent adds cost and complexity — verify single agent can't handle it first"
+      ]
+    },
+    {
+      "skills": ["designing-agents"],
+      "query": "My agent has 47 MCP tools loaded and it keeps picking the wrong ones. Latency is also terrible. What's the right approach?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies too many tools as the core problem — agents work best with 10-20",
+        "Recommends progressive disclosure: index tool definitions, retrieve on demand",
+        "Suggests the multi-layer action space: push actions from tool layer to computer (bash, code execution)",
+        "Discusses token savings from code execution vs tool call chains",
+        "May suggest consolidating overlapping tools (links to designing-agent-tools skill)",
+        "Addresses latency — fewer tools in context means faster model inference"
+      ]
+    },
+    {
+      "skills": ["designing-agents"],
+      "query": "I need to build a content pipeline: generate blog post → edit for style → check facts → SEO optimize → format for CMS. What pattern should I use?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies this as a fixed sequential workflow — steps are known in advance",
+        "Recommends prompt chaining or sequential multi-agent pattern",
+        "Suggests adding programmatic gates between steps (quality checks)",
+        "May recommend evaluator-optimizer loop for the edit step specifically",
+        "Does NOT suggest a coordinator or swarm pattern — task is structured, not open-ended",
+        "Notes the trade-off: latency increases with each step but accuracy improves"
+      ]
+    },
+    {
+      "skills": ["designing-agents"],
+      "query": "How should I handle context for a production agent that runs for 30+ minutes on complex tasks? My current approach just keeps appending to the message history until it hits the limit.",
+      "files": [],
+      "expected_behavior": [
+        "Identifies context growth as the core issue — models degrade with more context",
+        "Recommends context offloading to filesystem as first strategy (not summarization)",
+        "Explains the offload-first principle: offload → index → summarize+offload → summarize-only",
+        "Discusses prompt caching and its importance for cost (cache hit rate as key metric)",
+        "Suggests the Ralph Loop for tasks that truly exceed one context window",
+        "Mentions plan files for steering and periodic re-reading to prevent drift",
+        "Warns against summarize-first approach — information loss"
+      ]
+    },
+    {
+      "skills": ["designing-agents"],
+      "query": "We want our agent to get better over time — learn from past sessions, remember what worked, avoid repeating mistakes. How do we architect this?",
+      "files": [],
+      "expected_behavior": [
+        "Describes context evolution as the framework — updating agent context (not model weights)",
+        "Explains the trajectory reflection pattern: collect sessions → score → reflect → update",
+        "Distinguishes between task-specific prompt optimization and open-ended memory learning",
+        "Mentions skill discovery: distilling reusable procedures from trajectories into skill files",
+        "References the sleep-time pattern for offline context consolidation",
+        "Grounds recommendations in practical implementation (memory files, CLAUDE.md updates)",
+        "Does NOT suggest fine-tuning as the primary approach"
+      ]
+    }
+  ]
+}
