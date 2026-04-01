@@ -1,84 +1,92 @@
 # Agent Best Practices
 
-Skills for designing effective AI agents, tools, prompts, and CLIs.
+Everything you need to build effective AI agents — architecture, tools, prompts, and CLIs. Distilled from Anthropic, Google, and practitioner research into installable agent skills.
 
-## Try it now
+## Install
 
 ```
 npx skills add tylergibbs1/agentsbestpractices
 ```
 
-## What's included
+## Skills
 
-### designing-agents
+### [designing-agents](skills/designing-agents/SKILL.md)
 
-Architecture patterns and context engineering strategies for agentic AI systems.
+**Pick the right architecture for your agent.** 12 design patterns with trade-offs, context engineering strategies, and a decision framework for when to go multi-agent.
 
-- **Pattern selection** — single agent, routing, parallelization, coordinator, evaluator-optimizer, hierarchical, swarm, ReAct, Ralph loop
-- **Context engineering** — progressive disclosure, offloading, caching, isolation, multi-layer action space
-- **Context evolution** — trajectory reflection, memory learning, skill discovery, sleep-time pattern
+| You'll learn | From |
+|---|---|
+| Single agent vs multi-agent decision framework | Anthropic's "Building effective agents" |
+| Context engineering (progressive disclosure, offloading, caching) | Lance Martin's agent design patterns |
+| Ralph loop for long-running tasks | Claude Code patterns |
+| Coordinator, hierarchical, swarm patterns | Google's agent design guide |
 
-### designing-agent-tools
+### [designing-agent-tools](skills/designing-agent-tools/SKILL.md)
 
-Building tools agents find ergonomic — schemas, descriptions, responses, evaluation.
+**Build tools agents actually use correctly.** Schema design, description writing, response formatting, and evaluation-driven improvement.
 
-- **Tool boundaries** — consolidate workflow-level tools instead of 1:1 API wrapping
-- **Schema design** — parameter naming, enums, 4-part description anatomy
-- **Response design** — concise vs detailed formats, pagination, actionable errors
-- **Evaluation** — task generation, train/test splits, agent loops, iterative improvement
+| You'll learn | From |
+|---|---|
+| Fewer, deeper tools beat many shallow tools | Anthropic's tool writing guide |
+| 4-part description anatomy (what/when/how/constraints) | SWE-bench tool optimization |
+| Response format control (concise vs detailed) | Slack MCP optimization |
+| Evaluation loops with agent transcript analysis | Tool evaluation cookbook |
 
-### prompting-agents
+### [prompting-agents](skills/prompting-agents/SKILL.md)
 
-Model-agnostic prompt engineering for agentic systems.
+**Write prompts that steer agents effectively.** Model-agnostic principles with ready-to-use prompt blocks. Works across Claude, GPT, Gemini.
 
-- **System prompt structure** — XML tags, role setting, context ordering
-- **Tool use steering** — action vs suggestion, parallel calling, aggressiveness calibration
-- **Thinking control** — chain-of-thought, self-checking, overthinking reduction
-- **Long-running agents** — multi-window state, context compaction, progress tracking
-- **Copy-paste patterns** — ready-to-use prompt blocks for common behaviors
+| You'll learn | From |
+|---|---|
+| System prompt structure with XML tags | Anthropic prompting best practices |
+| Action vs suggestion steering | Claude 4.6 migration guide |
+| Multi-window state management (tests.json, git checkpoints) | Long-horizon agent patterns |
+| Copy-paste blocks for common fixes (verbosity, hallucinations, overengineering) | Production agent debugging |
 
-### building-agent-clis
+### [building-agent-clis](skills/building-agent-clis/SKILL.md)
 
-Designing CLIs that AI agents can use safely and effectively.
+**Design CLIs that agents can use safely.** Input hardening, schema introspection, context window discipline, and a retrofit checklist for existing CLIs.
 
-- **Agent-first design** — raw JSON payloads, schema introspection, field masks
-- **Input hardening** — validation for hallucination-specific failure modes
-- **Safety rails** — dry-run, response sanitization, confirmation patterns
-- **Multi-surface** — same binary serves CLI, MCP, env vars, extensions
-- **Retrofit checklist** — incremental steps to make existing CLIs agent-friendly
+| You'll learn | From |
+|---|---|
+| Raw JSON payloads over bespoke flags | Google Workspace CLI (gws) |
+| Input hardening against hallucinations (path traversal, double encoding) | Agent-first CLI design |
+| Schema introspection replaces documentation | Runtime discovery patterns |
+| Multi-surface design (CLI + MCP + env vars) | Agent DX principles |
 
-## Structure
+## How skills work
+
+Each skill follows the [Agent Skills spec](https://agentskills.io/specification.md):
 
 ```
-skills/
-├── designing-agents/
-│   ├── SKILL.md
-│   ├── references/
-│   │   ├── design-patterns.md
-│   │   └── context-engineering.md
-│   └── evals/
-│       └── evals.json
-├── designing-agent-tools/
-│   ├── SKILL.md
-│   ├── references/
-│   │   ├── tool-descriptions.md
-│   │   └── tool-evaluation.md
-│   └── evals/
-│       └── evals.json
-├── prompting-agents/
-│   ├── SKILL.md
-│   ├── references/
-│   │   ├── thinking-config.md
-│   │   └── prompt-patterns.md
-│   └── evals/
-│       └── evals.json
-└── building-agent-clis/
-    ├── SKILL.md
-    ├── references/
-    │   └── input-hardening.md
-    └── evals/
-        └── evals.json
+skills/<skill-name>/
+├── SKILL.md           # Main instructions (loaded when triggered)
+├── references/        # Detailed guides (loaded on demand)
+└── evals/
+    └── evals.json     # Evaluation tasks
 ```
+
+Only the skill metadata is loaded into context at startup. The full SKILL.md is read when the skill triggers. Reference files are loaded only when needed — progressive disclosure keeps your context window clean.
+
+## Sources
+
+These skills distill guidance from:
+
+- [Building effective agents](https://www.anthropic.com/engineering/building-effective-agents) — Anthropic
+- [How to write tools](https://www.anthropic.com/engineering/how-to-write-tools) — Anthropic
+- [Prompting best practices](https://docs.anthropic.com/en/docs/build-with-claude/prompting-best-practices) — Anthropic
+- [Agent design patterns](https://lancemartin.notion.site/agent-design-patterns) — Lance Martin
+- [Design pattern for your agentic AI system](https://cloud.google.com/discover/agent-design-pattern) — Google Cloud
+- [You Need to Rewrite Your CLI for AI Agents](https://jpoehnelt.dev/posts/rewrite-cli-for-ai-agents/) — Justin Poehnelt
+- [Skill authoring best practices](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/authoring-best-practices) — Anthropic
+
+## Contributing
+
+1. Fork the repo
+2. Create a branch (`feature/skill-name`)
+3. Follow the skill structure above — SKILL.md under 500 lines, references one level deep
+4. Include evals with realistic tasks (not trivial ones)
+5. Submit a PR
 
 ## License
 
