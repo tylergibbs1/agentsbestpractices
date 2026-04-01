@@ -96,6 +96,31 @@
         "Includes analysis guidance: read CoT, triage failure modes, check patterns",
         "Warns against overly simplistic sandbox tasks that don't stress-test tools"
       ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "My agent does a lot of search — it calls web_search 10+ times, pulls all results into context, then reasons over them. It's slow and expensive. Is there a better way?",
+      "files": [],
+      "expected_behavior": [
+        "Identifies the composition tax — each tool call round-trips through context",
+        "Recommends programmatic tool calling (PTC) for this use case",
+        "Explains how PTC works: model writes code that calls tools, results stay in code, only final output reaches context",
+        "Notes the search benchmark results (~11% accuracy improvement, ~24% fewer tokens)",
+        "Explains that tool handlers still inspect/reject/log every call — control surface is preserved",
+        "Distinguishes when PTC helps (large intermediate data, small final output) vs standard calls (single calls, user needs visibility)"
+      ]
+    },
+    {
+      "skills": ["designing-agent-tools"],
+      "query": "When should I make something a dedicated tool vs just letting the agent use bash? My agent already has a bash tool.",
+      "files": [],
+      "expected_behavior": [
+        "Does NOT say 'make everything a tool' — bash is already a powerful action space",
+        "Lists specific reasons to promote to a tool: UX rendering, guardrails, concurrency control, observability, autonomy control",
+        "Gives concrete examples for each reason",
+        "Notes that if none of these apply, the action can stay in bash/code execution",
+        "Mentions the trade-off: tools give control but add composition tax"
+      ]
     }
   ]
 }

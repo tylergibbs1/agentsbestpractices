@@ -1,6 +1,6 @@
 ---
 name: designing-agent-tools
-description: Designs, builds, and optimizes tools for AI agents — covering schema design, descriptions, response formatting, MCP servers, evaluation, and iterative improvement. Triggers on "build a tool," "write a tool," "MCP tool," "agent tool," "tool for Claude," "tool design," "improve my tools," "tool evaluation," "tool description," "my agent keeps calling the wrong tool," "agent can't use this tool," building MCP servers, Desktop extensions (DXT), or API tool definitions.
+description: Designs, builds, and optimizes tools for AI agents — covering schema design, descriptions, response formatting, MCP servers, programmatic tool calling (PTC), evaluation, and iterative improvement. Triggers on "build a tool," "write a tool," "MCP tool," "agent tool," "tool for Claude," "tool design," "improve my tools," "tool evaluation," "tool description," "programmatic tool calling," "PTC," "tool composition," "reduce tool call tokens," "my agent keeps calling the wrong tool," "agent can't use this tool," building MCP servers, Desktop extensions (DXT), or API tool definitions.
 metadata:
   version: 2.0.0
 ---
@@ -91,6 +91,54 @@ When agents access many tools, namespace by service and resource:
 - **Resource:** `asana_projects_search`, `asana_tasks_search`
 
 Test prefix vs suffix naming — effect on agent performance varies by model.
+
+---
+
+## When to Promote an Action to a Tool
+
+A bash tool in a loop is already a computer-use agent. Not every action needs its own tool. Promote an action to a tool when you need:
+
+| Reason | Example |
+|---|---|
+| **UX** | `AskUserQuestion` — needs special rendering in the UI |
+| **Guardrails** | File edit tool with staleness check (verify file hasn't changed since last read) |
+| **Concurrency** | Group read-only tools that can safely run in parallel |
+| **Observability** | Isolate specific actions for latency/token logging |
+| **Autonomy control** | Group by reversibility — auto-approve undoable actions, require confirmation for destructive ones |
+
+If none of these apply, the action can stay in bash/code execution.
+
+---
+
+## The Tool Composition Problem
+
+Each tool call round-trips through the model's context. Three sequential tool calls means three reasoning steps, three serialized results (even if the next step only needs a fraction), and three latency hits. This **composition tax** grows with the number of actions.
+
+### Programmatic Tool Calling (PTC)
+
+PTC lets the model write code that orchestrates tool calls inside a container. Tool results return to the running code, not the model's context window. Only the final output reaches the model.
+
+```
+Standard tool calling:
+  Model → tool_1 → [result in context] → Model → tool_2 → [result in context] → Model
+  (every intermediate result consumes context tokens)
+
+Programmatic tool calling:
+  Model → writes code → code calls tool_1 → result stays in code →
+  code calls tool_2 → result stays in code → code returns final output → Model
+  (only final output consumes context tokens)
+```
+
+**When PTC helps most:**
+- Multi-step search (filter 50 results down to 5 relevant ones)
+- Data pipelines (fetch → parse → filter → aggregate)
+- Any workflow where intermediate results are large but the final output is small
+
+**Results:** On search benchmarks, PTC improved accuracy by ~11% while using ~24% fewer input tokens.
+
+**Key insight:** Tool handlers still sit in the middle of every call — they can inspect, reject, log, or queue for human approval. PTC preserves the control surface of tools while getting the composability of code.
+
+For implementation details: See [references/programmatic-tool-calling.md](references/programmatic-tool-calling.md)
 
 ---
 

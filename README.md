@@ -30,6 +30,7 @@ npx skills add tylergibbs1/agentsbestpractices
 | Fewer, deeper tools beat many shallow tools | Anthropic's tool writing guide |
 | 4-part description anatomy (what/when/how/constraints) | SWE-bench tool optimization |
 | Response format control (concise vs detailed) | Slack MCP optimization |
+| Programmatic tool calling (PTC) for token-efficient composition | Claude PTC announcement |
 | Evaluation loops with agent transcript analysis | Tool evaluation cookbook |
 
 ### [prompting-agents](skills/prompting-agents/SKILL.md)
@@ -78,6 +79,7 @@ These skills distill guidance from:
 - [Agent design patterns](https://lancemartin.notion.site/agent-design-patterns) — Lance Martin
 - [Design pattern for your agentic AI system](https://cloud.google.com/discover/agent-design-pattern) — Google Cloud
 - [You Need to Rewrite Your CLI for AI Agents](https://jpoehnelt.dev/posts/rewrite-cli-for-ai-agents/) — Justin Poehnelt
+- [Programmatic tool calling](https://www.anthropic.com/engineering/programmatic-tool-calling) — Anthropic
 - [Skill authoring best practices](https://docs.anthropic.com/en/docs/agents-and-tools/agent-skills/authoring-best-practices) — Anthropic
 
 ## Contributing
